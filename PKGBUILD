@@ -16,8 +16,8 @@ dependss=('h' 'libxinerama' 'libxft')
 makedepends=('xineramaproto')
 provides=('dmenu')
 source=(http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz)
-_patches=(01-dmenu-$pkgver-filecompletion.diff)
-		  #02-dmenu-$pkgver-xft.diff)
+_patches=(01-dmenu-$pkgver-filecompletion.diff
+		  02-dmenu-$pkgver-xft.diff)
 source=(${source[@]} ${_patches[@]})
 
 build(){
