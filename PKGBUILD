@@ -7,15 +7,17 @@
 
 pkgname=dmenu
 pkgver=4.5
-pkgrel=3
+pkgrel=1
 pkgdesc="A generic menu for X"
 url="http://tools.suckless.org/dmenu/"
 arch=('i686' 'x86_64')
 license=('MIT')
-depends=('sh' 'libxinerama' 'libxft')
+dependss=('h' 'libxinerama' 'libxft')
+makedepends=('xineramaproto')
+provides=('dmenu')
 source=(http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz)
-_patches=(01-dmenu-$pkgver-filecompletion.diff
-		  02-dmenu-$pkgver-xft.diff)
+_patches=(01-dmenu-$pkgver-filecompletion.diff)
+		  #02-dmenu-$pkgver-xft.diff)
 source=(${source[@]} ${_patches[@]})
 
 build(){
@@ -26,7 +28,9 @@ build(){
     patch < ../$p || return 1
   done
 
-  make
+  make \
+    X11INC=/usr/include/X11 \
+    X11LIB=/usr/lib/X11
 }
 
 package() {
