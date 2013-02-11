@@ -1,5 +1,5 @@
 diff --git a/src/dmenu-4.5/config.mk b/src/dmenu-4.5/config.mk
-index 92a5e63..a8ebf75 100644
+index 92a5e63..9cff5db 100644
 --- a/src/dmenu-4.5/config.mk
 +++ b/src/dmenu-4.5/config.mk
 @@ -12,9 +12,13 @@ X11LIB = /usr/X11R6/lib
@@ -7,7 +7,7 @@ index 92a5e63..a8ebf75 100644
  XINERAMAFLAGS = -DXINERAMA
  
 +# Xft, comment if you don't want it
-+XFTINC = -I/usr/local/include/freetype2
++XFTINC = -I/usr/include/freetype2
 +XFTLIBS  = -lXft -lXrender -lfreetype -lz -lfontconfig
 +
  # includes and libs

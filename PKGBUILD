@@ -14,8 +14,8 @@ arch=('i686' 'x86_64')
 license=('MIT')
 depends=('sh' 'libxinerama' 'libxft')
 source=(http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz)
-_patches=(01-dmenu-$pkgver-filecompletion.diff)
-		  #02-dmenu-$pkgver-xft.diff)
+_patches=(01-dmenu-$pkgver-filecompletion.diff
+		  02-dmenu-$pkgver-xft.diff)
 source=(${source[@]} ${_patches[@]})
 
 build(){
