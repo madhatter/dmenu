@@ -16,17 +16,16 @@ dependss=('h' 'libxinerama' 'libxft')
 makedepends=('xineramaproto')
 provides=('dmenu')
 source=(http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz)
-#_patches=(01-dmenu-$pkgver-filecompletion.diff)
-		  #02-dmenu-$pkgver-xft.diff)
+_patches=(01-dmenu-$pkgver-filecompletion.diff)
 source=(${source[@]} ${_patches[@]})
 
 build(){
   cd $srcdir/$pkgname-$pkgver
 
-#  for p in "${_patches[@]}"; do
-#  	echo "=> $p"
-#    patch < ../$p || return 1
-#  done
+  for p in "${_patches[@]}"; do
+  	echo "=> $p"
+    patch < ../$p || return 1
+  done
 
   make \
     X11INC=/usr/include/X11 \

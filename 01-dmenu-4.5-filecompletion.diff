@@ -1,33 +1,36 @@
---- dmenu.c	2012-01-08 07:18:43.000000000 -0500
-+++ dmenu-patched.c	2012-08-02 10:27:52.068108314 -0400
-@@ -12,6 +12,7 @@
- #include <X11/extensions/Xinerama.h>
- #endif
- #include "draw.h"
+diff --git a/src/dmenu-4.5/dmenu.c b/src/dmenu-4.5/dmenu.c
+index 4ea95f8..3ca3ea7 100644
+--- a/src/dmenu-4.5/dmenu.c
++++ b/src/dmenu-4.5/dmenu.c
+@@ -5,6 +5,7 @@
+ #include <string.h>
+ #include <strings.h>
+ #include <unistd.h>
 +#include <wordexp.h>
- 
- #define INTERSECT(x,y,w,h,r)  (MAX(0, MIN((x)+(w),(r).x_org+(r).width)  - MAX((x),(r).x_org)) \
-                              * MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
-@@ -38,6 +39,7 @@
- static void run(void);
- static void setup(void);
- static void usage(void);
+ #include <X11/Xlib.h>
+ #include <X11/Xatom.h>
+ #include <X11/Xutil.h>
+@@ -32,6 +33,7 @@ static void grabkeyboard(void);
+ static void insert(const char *str, ssize_t n);
+ static void keypress(XKeyEvent *ev);
+ static void match(void);
 +static void matchfile(char *filestart);
- 
- static char text[BUFSIZ] = "";
- static int bh, mw, mh;
-@@ -375,6 +377,10 @@
+ static size_t nextrune(int inc);
+ static void paste(void);
+ static void readstdin(void);
+@@ -375,6 +377,11 @@ keypress(XKeyEvent *ev) {
  		}
  		break;
  	case XK_Tab:
-+        if( strchr(text, ' ')!=NULL ) {
-+            matchfile( strchr(text, ' ')+1);
-+            break;
-+        }
++		if( strchr(text, ' ')!=NULL ) {
++			matchfile( strchr(text, ' ')+1 );
++			cursor = strlen(text);
++			break;
++		}
  		if(!sel)
  			return;
  		strncpy(text, sel->text, sizeof text);
-@@ -464,6 +470,35 @@
+@@ -464,6 +471,34 @@ paste(void) {
  }
  
  void
@@ -45,7 +48,7 @@
 +		}
 +		filestart[j]=0;
 +
-+		for(k=1; k<exp.we_wordc; k++)
++		for(k=1; k<exp.we_wordc; k++)  /* comment this block for first-completion */
 +			for(j=0, i=0; exp.we_wordv[k][i]; i++,j++) {
 +				if( filestart[j]=='\\' ) j++;
 +				if( filestart[j]!=exp.we_wordv[k][i] ) {
@@ -58,7 +61,6 @@
 +	}
 +	wordfree(&exp);
 +}
-+
 +void
  readstdin(void) {
  	char buf[sizeof text], *p, *maxstr = NULL;
