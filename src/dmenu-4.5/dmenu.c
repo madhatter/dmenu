@@ -5,6 +5,7 @@
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
+#include <wordexp.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
@@ -32,6 +33,7 @@ static void grabkeyboard(void);
 static void insert(const char *str, ssize_t n);
 static void keypress(XKeyEvent *ev);
 static void match(void);
+static void matchfile(char *filestart);
 static size_t nextrune(int inc);
 static void paste(void);
 static void readstdin(void);
