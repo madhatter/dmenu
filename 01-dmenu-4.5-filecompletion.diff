@@ -1,22 +1,24 @@
---- dmenu-3.9/dmenu.c	2008-09-09 15:45:00.000000000 -0400
-+++ dmenu-4.0/dmenu.c	2009-01-27 16:35:28.000000000 -0500
-@@ -8,6 +8,7 @@
+diff --git a/src/dmenu-4.5/dmenu.c b/src/dmenu-4.5/dmenu.c
+index 4ea95f8..cf7f035 100644
+--- a/src/dmenu-4.5/dmenu.c
++++ b/src/dmenu-4.5/dmenu.c
+@@ -5,6 +5,7 @@
  #include <string.h>
  #include <strings.h>
  #include <unistd.h>
 +#include <wordexp.h>
- #include <X11/keysym.h>
  #include <X11/Xlib.h>
+ #include <X11/Xatom.h>
  #include <X11/Xutil.h>
-@@ -59,6 +60,7 @@
- static void initfont(const char *fontstr);
- static void kpress(XKeyEvent * e);
- static void match(char *pattern);
+@@ -32,6 +33,7 @@ static void grabkeyboard(void);
+ static void insert(const char *str, ssize_t n);
+ static void keypress(XKeyEvent *ev);
+ static void match(void);
 +static void matchfile(char *filestart);
+ static size_t nextrune(int inc);
+ static void paste(void);
  static void readstdin(void);
- static void run(void);
- static void setup(Bool topbar);
-@@ -470,6 +472,10 @@
+@@ -375,6 +377,10 @@ keypress(XKeyEvent *ev) {
  		}
  		break;
  	case XK_Tab:
@@ -27,7 +29,7 @@
  		if(!sel)
  			return;
  		strncpy(text, sel->text, sizeof text);
-@@ -521,6 +527,35 @@
+@@ -464,6 +470,35 @@ paste(void) {
  }
  
  void
@@ -61,6 +63,5 @@
 +
 +void
  readstdin(void) {
- 	char *p, buf[1024];
- 	unsigned int len = 0, max = 0;
-
+ 	char buf[sizeof text], *p, *maxstr = NULL;
+ 	size_t i, max = 0, size = 0;
